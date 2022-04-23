@@ -14,28 +14,51 @@ Checklist of the most important security countermeasures when designing, testing
 ## Input Validation
 
 - [ ] Validate all user-supplied input in the headers and in the body before they are processed
+- [ ] Validate user input to avoid common vulnerabilities (e.g. `XSS`, `SQL-Injection`, `Remote Code Execution`, etc.).
+- [ ] Use an API Gateway service to enable caching, Rate Limit policies (e.g. `Quota`, `Spike Arrest`, or `Concurrent Rate Limit`) and deploy APIs resources dynamically.
+- [ ] Don't use any sensitive data (`credentials`, `Passwords`, `security tokens`, or `API keys`) in the URL, but use standard Authorization header.
 - [ ] Validate the type (e.g. integer, string, floating point number), size (e.g. minimum string lengths, minimum abd maximum values for numbers) and format the composition of expected inputs
 - [ ] Validate the sizes of the JSON arrays and number of child elements in XML requests
 - [ ] Use built-in libraries or annotations for input validation as much as possible, build custom validators if built-in functionality is inadequate 
 - [ ] Validate the size of the request body and request headers (at preferably at the API gateway)
 - [ ] Validate that the `content-type` in the request header matches the expected content type
 - [ ] Do not attempt to sanitise input (e.g. remove certain bad characters or strings) 
-- [ ] Make sure that if input validation fail, the request is rejected with an appropriate error HTTP response
+- [ ] Make sure that if input validation fail, the request is rejected with an appropriate error HTTP response.
+
 
 ## Access Control
 
 ### Rate Limiting
 - [ ] Make sure that rate limiting/throttling is applied to each API based on either per-session or per-IP or based on other properties that's relevant
+- [ ] Limit requests (Throttling) to avoid DDoS / brute-force attacks.
+- [ ] For private APIs, only allow access from whitelisted IPs/hosts.
 
-### Authentication and Authorisation 
+## Authentication and Authorisation 
 - [ ] Avoid developing custom authentication protocols as much as possible
 - [ ] Use an identity provider (IDP) and use open standards and frameworks such as OpenID Connect for user identity and OAuth to delegate authorisation to API resources
 - [ ] Avoid [HTTP basic authentication](https://tools.ietf.org/html/rfc7617) or [OAuth 2.0 Client Credentials Grant](https://oauth.net/2/grant-types/client-credentials/) for user authorisaion
 - [ ] Use [Authorizaion Code grant](https://oauth.net/2/grant-types/authorization-code/) with [PKCE (Proof Key for Code Exchange)](https://oauth.net/2/pkce/) instead of the [Implicit Grant](https://oauth.net/2/grant-types/implicit/) for Single Page Applications (SPAs) 
+- [ ] Don't use `Basic Auth`. Use standard authentication instead (e.g. [JWT](https://jwt.io/), [OAuth](https://oauth.net/)).
+- [ ] Don't reinvent the wheel in `Authentication`, `token generation`, `password storage`. Use the standards.
+- [ ] Use `Max Retry` and jail features in Login.
 
+### JWT (JSON Web Token)
+- [ ] Use a random complicated key (`JWT Secret`) to make brute forcing the token very hard.
+- [ ] Don't extract the algorithm from the header. Force the algorithm in the backend (`HS256` or `RS256`).
+- [ ] Make token expiration (`TTL`, `RTTL`) as short as possible.
+- [ ] Don't store sensitive data in the JWT payload, it can be decoded [easily](https://jwt.io/#debugger-io).
+
+### OAuth
+- [ ] Always validate `redirect_uri` server-side to allow only whitelisted URLs.
+- [ ] Always try to exchange for code and not tokens (don't allow `response_type=token`).
+- [ ] Use `state` parameter with a random hash to prevent CSRF on the OAuth authentication process.
+- [ ] Define the default scope, and validate scope parameters for each application.
 
 ## Security Configuration
+- [ ] Use HTTPS on server side to avoid MITM (Man in the Middle Attack).
+- [ ] Use `HSTS` header with SSL to avoid SSL Strip attack.
 - [ ] Make sure that APIs are exposed through secure channels such as TLS
+- [ ] Use encryption on all sensitive data.
 - [ ] Make sure that debug logging or error messages are disabled in production deployments
 - [ ] Make sure that monitoring and diagnostic endpoints provided by frameworks (e.g. [Spring Boot Actuator](https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-features.html#production-ready-endpoints)) are either disabled or secured (HTTPS) and the exposure is controlled
 
@@ -52,46 +75,6 @@ Checklist of the most important security countermeasures when designing, testing
 - [ ] Make sure that static application security testing (SAST) is performed
 - [ ] Make sure that software composition analysis (SCA) scanning is performed 
 - [ ] Make sure that dynamic application security testing (DAST) is performed
-
----
-
-# Changes To Add
-
-
-
----
-
-## Authentication
-- [ ] Don't use `Basic Auth`. Use standard authentication instead (e.g. [JWT](https://jwt.io/), [OAuth](https://oauth.net/)).
-- [ ] Don't reinvent the wheel in `Authentication`, `token generation`, `password storage`. Use the standards.
-- [ ] Use `Max Retry` and jail features in Login.
-- [ ] Use encryption on all sensitive data.
-
-### JWT (JSON Web Token)
-- [ ] Use a random complicated key (`JWT Secret`) to make brute forcing the token very hard.
-- [ ] Don't extract the algorithm from the header. Force the algorithm in the backend (`HS256` or `RS256`).
-- [ ] Make token expiration (`TTL`, `RTTL`) as short as possible.
-- [ ] Don't store sensitive data in the JWT payload, it can be decoded [easily](https://jwt.io/#debugger-io).
-
-### OAuth
-- [ ] Always validate `redirect_uri` server-side to allow only whitelisted URLs.
-- [ ] Always try to exchange for code and not tokens (don't allow `response_type=token`).
-- [ ] Use `state` parameter with a random hash to prevent CSRF on the OAuth authentication process.
-- [ ] Define the default scope, and validate scope parameters for each application.
-
-## Access
-- [ ] Limit requests (Throttling) to avoid DDoS / brute-force attacks.
-- [ ] Use HTTPS on server side to avoid MITM (Man in the Middle Attack).
-- [ ] Use `HSTS` header with SSL to avoid SSL Strip attack.
-- [ ] For private APIs, only allow access from whitelisted IPs/hosts.
-
-## Input
-- [ ] Use the proper HTTP method according to the operation: `GET (read)`, `POST (create)`, `PUT/PATCH (replace/update)`, and `DELETE (to delete a record)`, and respond with `405 Method Not Allowed` if the requested method isn't appropriate for the requested resource.
-- [ ] Validate `content-type` on request Accept header (Content Negotiation) to allow only your supported format (e.g. `application/xml`, `application/json`, etc.) and respond with `406 Not Acceptable` response if not matched.
-- [ ] Validate `content-type` of posted data as you accept (e.g. `application/x-www-form-urlencoded`, `multipart/form-data`, `application/json`, etc.).
-- [ ] Validate user input to avoid common vulnerabilities (e.g. `XSS`, `SQL-Injection`, `Remote Code Execution`, etc.).
-- [ ] Don't use any sensitive data (`credentials`, `Passwords`, `security tokens`, or `API keys`) in the URL, but use standard Authorization header.
-- [ ] Use an API Gateway service to enable caching, Rate Limit policies (e.g. `Quota`, `Spike Arrest`, or `Concurrent Rate Limit`) and deploy APIs resources dynamically.
 
 ## Processing
 - [ ] Check if all the endpoints are protected behind authentication to avoid broken authentication process.
