@@ -1,6 +1,49 @@
-# API Security Checklist
 
-Checklist of the most important security countermeasures when designing, testing, and releasing your API.
+
+<p align="center">
+  <h1 align="center"> API Security Checklist</h1>
+   </p>  
+   
+   <p align="center">
+   Checklist of the most important security countermeasures when designing, testing, and releasing your API.
+
+  
+  <br>
+  <small> <b><i>Show your support!</i> </b></small>
+  <br>
+   <a href="https://github.com/MarketingPipeline/API-Security-Checklist">
+    <img title="Star on GitHub" src="https://img.shields.io/github/stars/MarketingPipeline/API-Security-Checklist.svg?style=social&label=Star">
+  </a>
+  <a href="https://github.com/MarketingPipeline/API-Security-Checklist/fork">
+    <img title="Fork on GitHub" src="https://img.shields.io/github/stars/MarketingPipeline/API-Security-Checklist.svg?style=social&label=Fork">
+  </a>
+   </p>  
+
+
+
+## Table Of Contents
+- [API Security Checklist](#api-security-checklist)
+  * [Design](#design)
+  * [Input Validation](#input-validation)
+  * [Access Control](#access-control)
+    + [Rate Limiting](#rate-limiting)
+  * [Authentication and Authorisation](#authentication-and-authorisation)
+    + [JSON Web Token](#json-web-token)
+    + [OAuth](#oauth)
+  * [Security Configuration](#security-configuration)
+  * [Logging](#logging)
+  * [Build](#build)
+  * [Security Testing](#security-testing)
+  * [Processing](#processing)
+  * [Output](#output)
+  * [CI and CD](#ci-and-cd)
+
+<br>
+
+
+
+
+
 
 ---
 ## Design
@@ -42,7 +85,7 @@ Checklist of the most important security countermeasures when designing, testing
 - [ ] Don't reinvent the wheel in `Authentication`, `token generation`, `password storage`. Use the standards.
 - [ ] Use `Max Retry` and jail features in Login.
 
-### JWT (JSON Web Token)
+### JSON Web Token
 - [ ] Use a random complicated key (`JWT Secret`) to make brute forcing the token very hard.
 - [ ] Don't extract the algorithm from the header. Force the algorithm in the backend (`HS256` or `RS256`).
 - [ ] Make token expiration (`TTL`, `RTTL`) as short as possible.
@@ -95,7 +138,7 @@ Checklist of the most important security countermeasures when designing, testing
 - [ ] Don't return sensitive data like `credentials`, `Passwords`, or `security tokens`.
 - [ ] Return the proper status code according to the operation completed. (e.g. `200 OK`, `400 Bad Request`, `401 Unauthorized`, `405 Method Not Allowed`, etc.).
 
-## CI & CD
+## CI and CD
 - [ ] Audit your design and implementation with unit/integration tests coverage.
 - [ ] Use a code review process and disregard self-approval.
 - [ ] Ensure that all components of your services are statically scanned by AV software before pushing to production, including vendor libraries and other dependencies.
