@@ -27,7 +27,7 @@
   * [Input Validation](#input-validation)
   * [Access Control](#access-control)
     + [Rate Limiting](#rate-limiting)
-  * [Authentication and Authorisation](#authentication-and-authorisation)
+  * [Authentication and Authorization](#authentication-and-authorization)
     + [JSON Web Token](#json-web-token)
     + [OAuth](#oauth)
   * [Security Configuration](#security-configuration)
@@ -76,7 +76,7 @@
 - [ ] Limit requests (Throttling) to avoid DDoS / brute-force attacks.
 - [ ] For private APIs, only allow access from whitelisted IPs/hosts.
 
-## Authentication and Authorisation 
+## Authentication and Authorization
 - [ ] Avoid developing custom authentication protocols as much as possible
 - [ ] Use an identity provider (IDP) and use open standards and frameworks such as OpenID Connect for user identity and OAuth to delegate authorisation to API resources
 - [ ] Avoid [HTTP basic authentication](https://tools.ietf.org/html/rfc7617) or [OAuth 2.0 Client Credentials Grant](https://oauth.net/2/grant-types/client-credentials/) for user authorisaion
