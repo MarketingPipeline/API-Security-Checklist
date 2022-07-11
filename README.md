@@ -15,7 +15,7 @@
     <img title="Star on GitHub" src="https://img.shields.io/github/stars/MarketingPipeline/API-Security-Checklist.svg?style=social&label=Star">
   </a>
   <a href="https://github.com/MarketingPipeline/API-Security-Checklist/fork">
-    <img title="Fork on GitHub" src="https://img.shields.io/github/stars/MarketingPipeline/API-Security-Checklist.svg?style=social&label=Fork">
+    <img title="Fork on GitHub" src="https://img.shields.io/github/forks/MarketingPipeline/API-Security-Checklist.svg?style=social&label=Fork">
   </a>
    </p>  
 
